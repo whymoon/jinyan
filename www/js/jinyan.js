@@ -295,15 +295,15 @@ function updatePieIndexData(data, type, index, location) {
         // });
         // 刷新“上升/下降”处的百分比
         $('p#dangjian-cmp').html(Mustache.render(
-            '同比{{text}}<span class="num {{direct}}">{{diff}}%</span><i class="glyphicon glyphicon-triangle-{{shape}}"></i>',
+            '同比{{text}}<span class="num {{direct}}">{{diff}}%</span>',
             calcUpDown(data.data1_y, index)
         ));
         $('p#moment-cmp').html(Mustache.render(
-            '同比{{text}}<span class="num {{direct}}">{{diff}}%</span><i class="glyphicon glyphicon-triangle-{{shape}}"></i>',
+            '同比{{text}}<span class="num {{direct}}">{{diff}}%</span>',
             calcUpDown(data.data2_y, index)
         ));
         $('p#publicopinion-cmp').html(Mustache.render(
-            '同比{{text}}<span class="num {{direct}}">{{diff}}%</span><i class="glyphicon glyphicon-triangle-{{shape}}"></i>',
+            '同比{{text}}<span class="num {{direct}}">{{diff}}%</span>',
             calcUpDown(data.data3_y, index)
         ));
     }
@@ -311,7 +311,7 @@ function updatePieIndexData(data, type, index, location) {
     {
         var dangjian = PieIndex('dangjian',data.data1_y[6],1);
         $('p#dangjian-cmp').html(Mustache.render(
-            '同比{{text}}<span class="num {{direct}}">{{diff}}%</span><i class="glyphicon glyphicon-triangle-{{shape}}"></i>',
+            '同比{{text}}<span class="num {{direct}}">{{diff}}%</span>',
             calcUpDown(data.data1_y, 6)
         ));
     }
@@ -319,7 +319,7 @@ function updatePieIndexData(data, type, index, location) {
     {
         var weimin = PieIndex('weimin',data.data2_y[6],2);
         $('p#moment-cmp').html(Mustache.render(
-            '同比{{text}}<span class="num {{direct}}">{{diff}}%</span><i class="glyphicon glyphicon-triangle-{{shape}}"></i>',
+            '同比{{text}}<span class="num {{direct}}">{{diff}}%</span>',
             calcUpDown(data.data2_y, 6)
         ));
     }
@@ -327,7 +327,7 @@ function updatePieIndexData(data, type, index, location) {
     {
         var yuqing = PieIndex('yuqing',data.data3_y[6],3);
         $('p#publicopinion-cmp').html(Mustache.render(
-            '同比{{text}}<span class="num {{direct}}">{{diff}}%</span><i class="glyphicon glyphicon-triangle-{{shape}}"></i>',
+            '同比{{text}}<span class="num {{direct}}">{{diff}}%</span>',
             calcUpDown(data.data3_y, 6)
         ));
     }
@@ -351,12 +351,12 @@ function updatePieIndexData(data, type, index, location) {
         if (diff >= 0) {
             text = "上升";
             direct = "up";
-            shape = "top";
+            shape = "up";
         }
         else {
             text = "下降";
             direct = "down";
-            shape = "bottom";
+            shape = "down";
         }
         return {
             diff: Math.abs(diff),

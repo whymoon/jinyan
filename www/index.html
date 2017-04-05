@@ -9,18 +9,21 @@
   <script src="lib/echarts.min.js"></script>
   <script src="lib/jquery-3.2.0.min.js"></script>
   <script src="lib/mustache.min.js"></script>
+  <script src="lib/bootstrap.min.js"></script>
 
   <link rel="stylesheet" href="components/loader.css">
   <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
   <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
-  <link rel="stylesheet" href="css/master.css">
+  <link rel="stylesheet" href="lib/bootstrap.min.css">
+  <link rel="stylesheet" href="lib/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="css/style.css">
 
   <script>
     var pageTitles = ['津眼首页', '党建先锋', '服务为民', '舆情热点'];
     
     ons.ready(function() {
       console.log("Onsen UI is ready!");
-      pieIndexData("all", "天津");
+      //pieIndexData("all", "天津");      
     });
 
     document.addEventListener('show', function(event) {
@@ -39,6 +42,9 @@
     });
   </script>
   <script src='js/jinyan.js'></script>
+  <style>
+       
+  </style>
 </head>
 <body>
   <ons-page>
@@ -64,33 +70,36 @@
   <ons-template id="jysy.html">
     <ons-page id="jysy">
       <div id="jysy-number">
-        <h5 align="center">津眼指数</h5>
-        <ul>
-            <li class="item clearfix">
-                <div class="item-chart" id="dangjian">
-                </div>
+        <h4 align="center">津眼指数</h4>
+        <table width="100%">
+            <tr>
+                <td><div class="item-chart" id="dangjian"></div></td>
+                <td>
                 <div class="item-cont">
                     <a href="#" class="item-link">党建活动指数</a>
                     <p id="dangjian-cmp">同比</p>
-                </div>
-            </li>
-            <li class="item clearfix">
-                <div class="item-chart" id="weimin">
-                </div>
+                </div>                    
+                </td>>
+            </tr>
+            <tr>
+                <td><div class="item-chart" id="weimin"></div></td>
+                <td>
                 <div class="item-cont">
                     <a href="#" class="item-link">服务为民指数</a>
                     <p id="moment-cmp">同比</p>
-                </div>
-            </li>
-            <li class="item clearfix">
-                <div class="item-chart" id = "yuqing">
-                </div>
+                </div>                    
+                </td>>
+            </tr>
+            <tr>
+                <td><div class="item-chart" id="yuqing"></div></td>
+                <td>
                 <div class="item-cont">
                     <a href="#" class="item-link">社会舆情指数</a>
                     <p id="publicopinion-cmp">同比</p>
-                </div>
-            </li>
-        </ul>
+                </div>                    
+                </td>>
+            </tr>
+        </table>
       </div>
       <div id="jysy-djxf">
         

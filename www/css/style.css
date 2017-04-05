@@ -1,0 +1,25 @@
+/* This is a CSS file */
+
+.item-chart{
+    width: 150px;
+    height:150px;
+}  
+.item-cont{
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0;
+    color: #454545;
+    transition: 0.3s;
+}
+a, a:focus, a:hover {
+    text-decoration: none;
+}
+li {
+    display: list-item;
+    text-align: -webkit-match-parent;
+}
+ul, ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
