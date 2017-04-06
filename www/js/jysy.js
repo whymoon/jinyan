@@ -374,7 +374,7 @@ function getTopActiveDepts(targetId, areaName, threshold) {
             code += '<td class="xf-item home-party-branch">';
             code += '<img src="img/xianfeng-top' + (i+1) + '.png" width="40px" height="40px">';
             code += '<p class="name">' + data[i].area + '</p>';
-            code += '<a href="https://ring.cnbigdata.org/partybranch/' + data[i].id + '" class="name jysy-xfzb-name">' + data[i].short_name + '</a></td>';            
+            code += '<p href="https://ring.cnbigdata.org/partybranch/' + data[i].id + '" class="name jysy-xfzb-name">' + data[i].short_name + '</p></td>';            
         }
         code += '</tr>';
         $(targetId).html(code);
