@@ -1,4 +1,30 @@
 // This is a JavaScript file
+var typeArr = [
+    "其他", "党建", "经贸 商务", "国资 投资", "工业 科技", "工商 物价", "财政 税收", "交通", "邮政", "金融 证券",
+    "市政 环卫", "农业", "林业", "文化 教育", "民族 宗教","体育", "国防 公安", "司法 法治", "反腐 ", "人事 档案",
+    "医疗 卫生", "社保 扶贫", "影视 出版", "食品 药品", "安全生产", "政治"];
+    
+function initJysy(){
+    pieIndexData("all", "天津");  
+    getTopActiveDepts('table#active-depts', "", 4);
+    getTopActivities('#activities', "", 6);
+    initSolvedData("#solved-list", "#unsolved-list" ,"", 6);
+    initZhengYuqing("#zmyq-list");
+    initFuYuqing("#fmyq-list");
+}
+
+function initDjxf(){
+    
+}
+
+function initFwwm(){
+    
+}
+
+function initYqrd(){
+    
+}
+
 function PieIndex(target,percent,flag){
     var myChart = echarts.init(document.getElementById(target));
     var tag="";
@@ -435,3 +461,207 @@ function getTopActivities(targetId, areaName, threshold) {
         $(targetId).html(Mustache.render(tpl, {activities: data.slice(0, threshold)}));
     });
 }
+function initSolvedData(target1, target2, loc, size) {
+    var dysjInfoTemplate =
+        '<ons-list-item class="news-list" modifier="nodivider">\
+        <div class="left " style="color: {{typecolor}};"> <div class="item-label">{{typestr}}</div></div>\
+        <div class="link center solve-unsolve-item" href="https://ring.cnbigdata.org/djyundysj/{{id}}"> {{title}}</div>\
+        </ons-list-item>';
+    var indexStr = ['index first','index second','index third','index','index'];
+    $.ajax({
+        type: "GET",
+        url: 'https://ring.cnbigdata.org/api/djyunsjsearch?size='+size+'&solved=1&order=updatedt&ordertype=desc&loc=' + loc,
+        dataType: "json",
+        success: function (data) {
+            // console.log(data);
+            var rendered = "";
+            $.each(data, function (i, d) {
+                d.time = d.updatedt;
+                d.num = i + 1;
+                d.indexStr = indexStr[Math.min(3,i)];
+                if(!d.location || d.location == "") d.location = "天津";
+                if(d.location.indexOf("区")>0)
+                {
+                    d.location = d.location.split("区")[0];
+                }
+                else if(d.location.indexOf("市")>0)
+                {
+                    d.location = d.location.split("市")[0];
+                }
+                var eventType = d.type?d.type:d.eventType;
+                if (eventType == 1 || eventType == 25) {
+                    d.typestr = typeArr[eventType];
+                    d.typecolor = "#FF7920!important";
+                }
+                else if (eventType == 4) {
+                    d.typestr = "科技";
+                    d.typecolor = "#60A3F5!important";
+                }
+                else {
+                    d.typestr = typeArr[eventType].split(" ")[0];
+                    d.typecolor = "#87A5B5!important";
+                }
+                rendered += Mustache.render(dysjInfoTemplate, d);
+            });
+            $(target1).html(rendered);
+        },
+        error: function (e) {
+            console.log(e);
+        }
+    });
+    $.ajax({
+        type: "GET",
+        url: 'https://ring.cnbigdata.org/api/djyunsjsearch?size='+size+'&solved=0&order=createdt&ordertype=asc&loc=' + loc,
+        dataType: "json",
+        success: function (data) {
+            //console.log(data);
+            var rendered = "";
+            $.each(data, function (i, d) {
+                d.time = d.createdt;
+                d.num = i + 1;
+                d.indexStr = indexStr[Math.min(3,i)];
+                var eventType = d.type?d.type:d.eventType;
+                if (eventType == 1 || eventType == 25) {
+                    d.typestr = typeArr[eventType];
+                    d.typecolor = "#FF7920!important";
+                }
+                else if (eventType == 4) {
+                    d.typestr = "科技";
+                    d.typecolor = "#60A3F5!important";
+                }
+                else {
+                    d.typestr = typeArr[eventType].split(" ")[0];
+                    d.typecolor = "#87A5B5!important";
+                }
+                if(!d.location || d.location == "") d.location = "天津市";
+                if(d.location.indexOf("市")>0)
+                {
+                    d.location = d.location.split("市")[0];
+                }
+                else if(d.location.indexOf("区")>0)
+                {
+                    d.location = d.location.split("区")[0];
+                }
+                rendered += Mustache.render(dysjInfoTemplate, d);
+            });
+            $(target2).html(rendered);
+        },
+        error: function (e) {
+            console.log(e);
+        }
+    });
+}
+
+function initFuYuqing(target) {
+    var newsInfoTemplate =
+            '<ons-list-item class="news-list" modifier="nodivider">\
+            <div class="left" style="color: {{typecolor}};"> <div class="item-label">{{typestr}}</div></div>\
+            <div class="link center zm-fm-item" href="{{url}}" data-toggle="tooltip" title="{{description}}">{{description}}</div>\
+            </ons-list-item>';   
+    var indexStr = ['index first','index second','index third','index','index'];
+    $.ajax({
+        type: "GET",
+        url: 'https://ring.cnbigdata.org/getYuqing?size=15&index=yqyj&loc=&emo=2',
+        dataType: "json",
+        success: function (data) {
+            // console.log(data);
+            data.sort(function (a,b) {
+                return a.time < b.time ? 1:-1;
+            });
+            // initYujingFix(data);
+            var render = "";
+            var cnt = 0;
+            for (var i in data) {
+                var d = data[i];
+                if(d.site.indexOf("贴吧") != -1)continue;
+                if(d.description.indexOf('行情分析') != -1 || d.description.indexOf('龙虎榜') != -1 ||
+                        d.description.indexOf('求购') != -1 || d.description.indexOf('上市') != -1 ||
+                        d.description.indexOf('成熟') != -1 || d.description.indexOf('彩票娱乐') != -1 ||
+                        d.description.indexOf('招聘') != -1 ||
+                        d.description.indexOf('培训') != -1 || d.description.indexOf('一对一') != -1
+                        || d.description.indexOf('名师') != -1|| d.description.indexOf('找小姐') != -1
+                        || d.description.indexOf('学大教育') != -1|| d.description.indexOf('琐事') != -1){
+                    continue;
+                }
+                if(cnt++ < 6)
+                    continue;
+                var eventType = parseInt(d.eventType)
+                if (eventType == 1 || eventType == 25) {
+                    d.typestr = typeArr[eventType];
+                    d.typecolor = "#FF7920!important";
+                }
+                else if (eventType == 4) {
+                    d.typestr = "科技";
+                    d.typecolor = "#60A3F5!important";
+                }
+                else {
+                    d.typestr = typeArr[eventType].split(" ")[0];
+                    d.typecolor = "#87A5B5!important";
+                }
+
+                d.num = cnt + 1 - 7;
+                d.indexStr = indexStr[Math.min(3, cnt - 7)];
+                d.time = d.time.substr(0, 4) + '-' + d.time.substr(4, 2) + '-' + d.time.substr(6, 2);
+                render += Mustache.render(newsInfoTemplate, d);
+                if(cnt > 13)
+                    break;
+            }
+            $("#fmyq-list").html(render);
+        },
+        error: function (e) {
+            console.log(e);
+        }
+    });
+}
+
+function initZhengYuqing(target) {
+    var newsInfoTemplate =
+            '<ons-list-item class="news-list" modifier="nodivider">\
+            <div class="left" style="color: {{typecolor}};"> <div class="item-label">{{typestr}}</div></div>\
+            <div class="link center zm-fm-item" href="{{url}}" data-toggle="tooltip" title="{{description}}">{{description}}</div>\
+            </ons-list-item>';
+    var indexStr = ['index first','index second','index third','index','index'];
+    var render = "";
+    $.ajax({
+        type: "GET",
+        url: 'https://ring.cnbigdata.org/getYuqing?size=8&index=tjnews&loc=天津&emo=1',
+        dataType: "json",
+        success: function (data) {
+            // console.log(data);
+            for (var i in data) {
+                var d = data[i];
+                d.eventLoc = d.eventLoc.substr(0,2);
+                var eventType = parseInt(d.eventType)
+                if (eventType == 1 || eventType == 25) {
+                    d.typestr = typeArr[eventType];
+                    d.typecolor = "#FF7920!important";
+                }
+                else if (eventType == 4) {
+                    d.typestr = "科技";
+                    d.typecolor = "#60A3F5!important";
+                }
+                else {
+                    d.typestr = typeArr[eventType].split(" ")[0];
+                    d.typecolor = "#87A5B5!important";
+                }
+
+                d.num = parseInt(i) + 1;
+                d.indexStr = indexStr[Math.min(3,i)];
+                if (d.src == '新闻')
+                    d.es_type = 0;
+                else
+                    d.es_type = 1;
+                d.time = d.time.substr(0, 10);
+                render += Mustache.render(newsInfoTemplate, d);
+                if(i > 6)
+                    break;
+            }
+            $("#zmyq-list").html(render);
+        },
+        error: function (e) {
+            console.log(e);
+        }
+    });
+
+}
+

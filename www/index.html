@@ -18,14 +18,34 @@
   <link rel="stylesheet" href="lib/bootstrap-theme.min.css">
   <link rel="stylesheet" href="css/style.css">
 
+  <script src='js/jinyan.js'></script>
   <script>
     var pageTitles = ['津眼首页', '党建先锋', '服务为民', '舆情热点'];
-    
+    var tabImgName = ['jysy.png', 'djxf.png', 'fwwm.png', 'yqrd.png'];
     ons.ready(function() {
       console.log("Onsen UI is ready!");
-      pieIndexData("all", "天津");  
-      getTopActiveDepts('table#active-depts', "", 4);
-      getTopActivities('#activities', "", 6);
+      $('#tab-jysy').find('img')[0].src = "img/a_jysy.png";
+      $('.tab-btn').click(function(){
+        $('#tab-jysy').find('img')[0].src = "img/jysy.png";
+        $('#tab-djxf').find('img')[0].src = "img/djxf.png";
+        $('#tab-fwwm').find('img')[0].src = "img/fwwm.png";
+        $('#tab-yqrd').find('img')[0].src = "img/yqrd.png";
+        var imgPath = $(this).find('img')[0].src.split('/');
+        $(this).find('img')[0].src = 'img/a_' + imgPath[imgPath.length - 1];   
+      });
+      $('#tab-jysy').click(function(){
+         initJysy();
+      });
+      $('#tab-djxf').click(function(){
+         initDjxf();
+      });
+      $('#tab-fwwm').click(function(){
+         initFwwm();
+      });
+      $('#tab-yqrd').click(function(){
+         initYqrd();
+      });
+      initJysy();      
     });
 
     document.addEventListener('show', function(event) {
@@ -43,10 +63,7 @@
       } 
     });
   </script>
-  <script src='js/jinyan.js'></script>
-  <style>
-       
-  </style>
+  
 </head>
 <body>
   <ons-page>
@@ -54,16 +71,16 @@
       <div class="center" id="toolbar-title"></div>
     </ons-toolbar>
     <ons-tabbar position="auto">
-      <ons-tab id="tab-jysy" label="jysy" page="jysy.html" active>
+      <ons-tab class="tab-btn" id="tab-jysy" label="jysy" page="jysy.html" active>
         <img src="img/jysy.png" width="30px" height="30px" align="center"/>
       </ons-tab>
-      <ons-tab id="tab-djxf" label="djxf" page="djxf.html">
+      <ons-tab class="tab-btn" id="tab-djxf" label="djxf" page="djxf.html">
         <img src="img/djxf.png" width="30px" height="30px" align="center"/>  
       </ons-tab>
-      <ons-tab id="tab-fwwm" label="fwwm" page="fwwm.html">
+      <ons-tab class="tab-btn" id="tab-fwwm" label="fwwm" page="fwwm.html">
         <img src="img/fwwm.png" width="30px" height="30px" align="center"/>  
       </ons-tab>
-      <ons-tab id="tab-yqrd" label="yqrd" page="yqrd.html">
+      <ons-tab class="tab-btn" id="tab-yqrd" label="yqrd" page="yqrd.html">
         <img src="img/yqrd.png" width="30px" height="30px" align="center"/>  
       </ons-tab>
     </ons-tabbar>
@@ -72,7 +89,7 @@
   <ons-template id="jysy.html">
     <ons-page id="jysy">
       <div id="jysy-number" class="panel panel-default">
-        <div class="panel-heading">津眼指数</div>
+        <div class="jysy-panel-head"><ons-icon icon="ion-android-menu"></ons-icon> 津眼指数</div>
         <div class="panel-body">
             <table width="100%">
                 <tr>
@@ -105,27 +122,50 @@
             </table>
         </div>
       </div>
-      <div id="jysy-xfzb" class="panel panel-default">
-        <div class="panel-heading">先锋支部</div>
-          <div class="panel-body">
-            <table id="active-depts">                
-            </table>
+      <div class="jysy-djxf">
+          <img class="jysy-caption" src="img/dangjian-caption.png" width="100%" alt="" />
+          <div id="jysy-xfzb" class="panel">      
+            <div class="jysy-panel-head"><ons-icon icon="ion-android-menu"></ons-icon> 先锋支部</div>
+              <div class="panel-body">
+                <table id="active-depts"></table>
+              </div>
+          </div>
+          <div id="jysy-xfhd" class="panel panel-default">
+            <div class="jysy-panel-head"><ons-icon icon="ion-android-menu"></ons-icon> 先锋活动</div>
+              <div class="panel-body">
+                <ons-list id="activities"></ons-list>
+              </div>
           </div>
       </div>
-      <div id="jysy-xfhd" class="panel panel-default">
-        <div class="panel-heading">先锋活动</div>
+      <div id="jysy-wmfw">
+        <img class="jysy-caption" src="img/weimin-caption.png" width="100%" alt="" />
+        <div id="jysy-qzal" class="panel">      
+          <div class="jysy-panel-head"><ons-icon icon="ion-android-menu"></ons-icon> 勤政案例</div>
           <div class="panel-body">
-          <ons-list id="activities">   
-            
-          </ons-list>
+             <ons-list id="solved-list"></ons-list>
+          </div>
+        </div>
+        <div id="jysy-lzal" class="panel">      
+          <div class="jysy-panel-head"><ons-icon icon="ion-android-menu"></ons-icon> 懒政案例</div>
+          <div class="panel-body">
+             <ons-list id="unsolved-list"></ons-list>
+          </div>
         </div>
       </div>
-      
-      <div id="jysy-wmfw">
-        
-      </div>
       <div id="jysy-yqrd">
-        
+        <img class="jysy-caption" src="img/yuqing-caption.png" width="100%" alt="" />
+        <div id="jysy-zmyq" class="panel">      
+          <div class="jysy-panel-head"><ons-icon icon="ion-android-menu"></ons-icon> 正面舆情</div>
+          <div class="panel-body">
+             <ons-list id="zmyq-list"></ons-list>
+          </div>
+        </div>
+        <div id="jysy-fmyq" class="panel">      
+          <div class="jysy-panel-head"><ons-icon icon="ion-android-menu"></ons-icon> 负面舆情</div>
+          <div class="panel-body">
+             <ons-list id="fmyq-list"></ons-list>
+          </div>
+        </div>
       </div>
     </ons-page>
   </ons-template>

@@ -24,13 +24,36 @@ ul, ol {
     padding: 0;
     margin: 0;
 }
-.panel-heading{
-    text-align: center;
-}
 table#active-depts{
     font-size: small;
     text-align: center;
 }
 #activities{
     font-size:medium;
+}
+.jysy-panel-head{
+    background-color: #ff5641;
+    color: #fff;    
+    padding: 10px;
+}
+.jysy-caption{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+#solved-list, #unsolved-list, #zmyq-list, #fmyq-list{
+    display: block;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    word-break:keep-all;
+    white-space:nowrap; 
+}
+.solve-unsolve-item, .zm-fm-item{
+    display: block;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    word-break:keep-all;
+    white-space:nowrap; 
+}
+.item-label{
+    border: 1px solid ;
 }
