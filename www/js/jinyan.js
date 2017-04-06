@@ -47,3 +47,4 @@ function PieIndex(target,percent,flag){
     myChart.setOption(option);
     return myChart;
 }
+

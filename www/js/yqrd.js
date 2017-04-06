@@ -167,7 +167,6 @@ function plotYuqingTrend(targetDom, data) {
     var pos = [];
     var neg = [];
     var neu = [];
-console.log(1);
     for(var i in data){
         var d = data[i];
         var t = new Date(d.time);
