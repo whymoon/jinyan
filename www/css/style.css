@@ -40,14 +40,14 @@ table#active-depts{
     margin-top: 10px;
     margin-bottom: 10px;
 }
-#solved-list, #unsolved-list, #zmyq-list, #fmyq-list, #fwwm-solved-list, #fwwm-unsolved-list{
+#solved-list, #unsolved-list, #zmyq-list, #fmyq-list, #fwwm-solved-list, #fwwm-unsolved-list, #yqrd-jwsj-list, #yqrd-jnsj-list{
     display: block;
     overflow:hidden;
     text-overflow:ellipsis;
     word-break:keep-all;
     white-space:nowrap; 
 }
-.solve-unsolve-item, .zm-fm-item{
+.solve-unsolve-item, .zm-fm-item, .yqsj-item{
     display: block;
     overflow:hidden;
     text-overflow:ellipsis;

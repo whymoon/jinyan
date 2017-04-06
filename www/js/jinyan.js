@@ -2,7 +2,7 @@
 var typeArr = [
     "其他", "党建", "经贸 商务", "国资 投资", "工业 科技", "工商 物价", "财政 税收", "交通", "邮政", "金融 证券",
     "市政 环卫", "农业", "林业", "文化 教育", "民族 宗教","体育", "国防 公安", "司法 法治", "反腐 ", "人事 档案",
-    "医疗 卫生", "社保 扶贫", "影视 出版", "食品 药品", "安全生产", "政治"];
+    "医疗 卫生", "社保 扶贫", "影视 出版", "食品 药品", "安全", "政治"];
 
 function PieIndex(target,percent,flag){
     var myChart = echarts.init(document.getElementById(target));
@@ -47,3 +47,4 @@ function PieIndex(target,percent,flag){
     myChart.setOption(option);
     return myChart;
 }
+

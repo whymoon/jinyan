@@ -3,6 +3,7 @@ function initYqrd(){
     initYuqingNumber();
     initYuqingStat();
     initYuqingTrend();    
+    getPublicOpinionData("8","");
 }
 
 function initYuqingNumber(){
@@ -76,6 +77,97 @@ function initYuqingTrend() {
         }
     });
 }
+function  getPublicOpinionData(type,loc) {
+     var dysjInfoTemplate =
+        '<ons-list-item class="news-list" modifier="nodivider">\
+        <div class="left " style="color: {{typecolor}};"> <div class="item-label">{{typestr}}</div></div>\
+        <div class="link center solve-unsolve-item" href="https://ring.cnbigdata.org/djyundysj/{{id}}"> {{title}}</div>\
+        </ons-list-item>';
+    var tjdatasj = '<ons-list-item class="news-list" modifier="nodivider">\
+                <div class="left " style="color: {{typecolor}};"> <div class="item-label">{{typestr}}</div></div>\
+                <div class="link center yqsj-item" href="https://ring.cnbigdata.org/djyuneanalysis/{{eventId}}_{{eventId}}_{{es_type}}"> {{description}}</div>\
+                </ons-list-item>';
+    $.ajax({
+        type: "GET",
+        url: 'https://ring.cnbigdata.org/getNewsData?size=6&imgurl=true&type='+ type + "&loc=" + loc,
+        dataType: "json",
+        success: function (data) {
+            var rendered = "";
+            var cnt = 0;
+            $.each(data,function (i,d) {
+                    if(d.description.indexOf('全县组织工作会议召开') != -1)
+                        return true;
+                    d.timestr = d.time.split("T")[0];
+                    // d.typestr = typeArr[parseInt(d.eventType)];
+                    if (d.src == '新闻')
+                        d.es_type = 0;
+                    else
+                        d.es_type = 1;
+                    var eventType = parseInt(d.eventType)
+                    if (eventType == 1 || eventType == 25) {
+                        d.typestr = typeArr[eventType];
+                        d.typecolor = "#FF7920!important";
+                    }
+                    else if (eventType == 4) {
+                        d.typestr = "科技";
+                        d.typecolor = "#60A3F5!important";
+                    }
+                    else {
+                        d.typestr = typeArr[eventType].split(" ")[0];
+                        d.typecolor = "#87A5B5!important";
+                    }
+                    rendered += Mustache.render(tjdatasj, d);
+
+                if(cnt++ > 5)
+                    return false;
+            })
+            $("#yqrd-jnsj-list").html(rendered);
+        },
+        error: function (e) {
+            console.log(e);
+        }
+    });
+    $.ajax({
+        type: "GET",
+        url: 'https://ring.cnbigdata.org/getNewsData?size=6&imgurl=true&type=1',
+        dataType: "json",
+        success: function (data) {
+            var rendered = "";
+            var cnt = 0;
+            $.each(data,function (i,d) {
+                if(d.description.indexOf('大脑体积') != -1)
+                    return true;
+                d.timestr = d.time.split("T")[0];
+                // d.typestr = typeArr[parseInt(d.eventType)];
+                if (d.src == '新闻')
+                    d.es_type = 0;
+                else
+                    d.es_type = 1;
+                var eventType = parseInt(d.eventType)
+                if (eventType == 1 || eventType == 25) {
+                    d.typestr = typeArr[eventType];
+                    d.typecolor = "#FF7920!important";
+                }
+                else if (eventType == 4) {
+                    d.typestr = "科技";
+                    d.typecolor = "#60A3F5!important";
+                }
+                else {
+                    d.typestr = typeArr[eventType].split(" ")[0];
+                    d.typecolor = "#87A5B5!important";
+                }
+                rendered += Mustache.render(tjdatasj, d);
+                if(cnt++ > 5)
+                    return false;
+            })
+            $("#yqrd-jwsj-list").html(rendered);
+        },
+        error: function (e) {
+            console.log(e);
+        }
+    });
+}
+
 function plotYuqingStat(targetDom, data) {
     var srctype = [[],[],[],[],[],[]];
     var typeList = [];
@@ -167,7 +259,6 @@ function plotYuqingTrend(targetDom, data) {
     var pos = [];
     var neg = [];
     var neu = [];
-console.log(1);
     for(var i in data){
         var d = data[i];
         var t = new Date(d.time);
