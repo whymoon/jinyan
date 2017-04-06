@@ -1,7 +1,7 @@
 // This is a JavaScript file
 
 function initJysy(){
-    pieIndexData("all", "天津");  
+    pieIndexData("all", "");  
     getTopActiveDepts('table#active-depts', "", 4);
     getTopActivities('#activities', "", 6);
     initSolvedData("#solved-list", "#unsolved-list" ,"", 6);
@@ -566,7 +566,7 @@ function initZhengYuqing(target) {
     var render = "";
     $.ajax({
         type: "GET",
-        url: 'https://ring.cnbigdata.org/getYuqing?size=8&index=tjnews&loc=天津&emo=1',
+        url: 'https://ring.cnbigdata.org/getYuqing?size=8&index=tjnews&loc=&emo=1',
         dataType: "json",
         success: function (data) {
             // console.log(data);

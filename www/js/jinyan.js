@@ -4,14 +4,6 @@ var typeArr = [
     "市政 环卫", "农业", "林业", "文化 教育", "民族 宗教","体育", "国防 公安", "司法 法治", "反腐 ", "人事 档案",
     "医疗 卫生", "社保 扶贫", "影视 出版", "食品 药品", "安全生产", "政治"];
 
-function initFwwm(){
-    
-}
-
-function initYqrd(){
-    
-}
-
 function PieIndex(target,percent,flag){
     var myChart = echarts.init(document.getElementById(target));
     var tag="";

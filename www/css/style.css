@@ -31,7 +31,7 @@ table#active-depts{
 #activities{
     font-size:medium;
 }
-.jysy-panel-head{
+.panel-head{
     background-color: #ff5641;
     color: #fff;    
     padding: 10px;
@@ -40,7 +40,7 @@ table#active-depts{
     margin-top: 10px;
     margin-bottom: 10px;
 }
-#solved-list, #unsolved-list, #zmyq-list, #fmyq-list{
+#solved-list, #unsolved-list, #zmyq-list, #fmyq-list, #fwwm-solved-list, #fwwm-unsolved-list{
     display: block;
     overflow:hidden;
     text-overflow:ellipsis;
@@ -57,20 +57,22 @@ table#active-depts{
 .item-label{
     border: 1px solid ;
 }
-.djxf-numbers-title{
+.djxf-numbers-title, .fwwm-numbers-title, yqrd-numbers-title{
     font-size: larger;
 }
-.djxf-numbers-count{
+.djxf-numbers-count, .fwwm-numbers-count, .yqrd-numbers-count{
     color: #f62626;
     font-size: x-large;
 }
-.djxf-numbers-desc{
+.djxf-numbers-desc, .fwwm-cmp, .yqrd-cmp{
     font-size: small;
     color: #8e8e8e;
 }
-.djxf-numbers-up{
+.djxf-numbers-up, .fwwm-numbers-up, .yqrd-numbers-up{
     color: #ff4f38;
+    font-size: large;
 }
-.djxf-numbers-down{
+.djxf-numbers-down, .fwwm-numbers-down, .yqrd-numbers-down{
     color: #059520;
+    font-size: large;
 }

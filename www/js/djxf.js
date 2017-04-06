@@ -4,7 +4,7 @@ function initDjxf(){
     getThematicActivities();
     getTopActivities('#djxf-activities', "", 8);
     getRecentActivityCount("");
-    getActiveAndCommentDegree("天津");
+    getActiveAndCommentDegree("");
     initDeptCount();
 }
 
@@ -47,7 +47,7 @@ function getRecentActivityCount(location){
 }
 
 function getActiveAndCommentDegree(location) {
-    location="天津";
+    location="";
     $.ajax({
         type:"GET",
         url: 'https://ring.cnbigdata.org/api/tianjin/getActiveAndCommentDegree',

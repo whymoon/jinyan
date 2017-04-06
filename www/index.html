@@ -21,7 +21,10 @@
   <script src='js/jinyan.js'></script>
   <script src='js/jysy.js'></script>
   <script src='js/djxf.js'></script>
+  <script src='js/fwwm.js'></script>
+  <script src='js/yqrd.js'></script>
   <script>
+    ons.disableAutoStyling();
     var pageTitles = ['津眼首页', '党建先锋', '服务为民', '舆情热点'];
     var tabImgName = ['jysy.png', 'djxf.png', 'fwwm.png', 'yqrd.png'];
     ons.ready(function() {
@@ -72,7 +75,7 @@
     <ons-toolbar>
       <div class="center" id="toolbar-title"></div>
     </ons-toolbar>
-    <ons-tabbar position="auto">
+    <ons-tabbar position="bottom">
       <ons-tab class="tab-btn" id="tab-jysy" label="jysy" page="jysy.html" active>
         <img src="img/jysy.png" width="30px" height="30px" align="center"/>
       </ons-tab>
@@ -91,7 +94,7 @@
   <ons-template id="jysy.html">
     <ons-page id="jysy">
       <div id="jysy-number" class="panel panel-default">
-        <div class="jysy-panel-head"><ons-icon rotate="270" icon="ion-social-rss" ></ons-icon> 津眼指数</div>
+        <div class="panel-head"><ons-icon rotate="270" icon="ion-social-rss" ></ons-icon> 津眼指数</div>
         <div class="panel-body">
             <table width="100%">
                 <tr>
@@ -127,13 +130,13 @@
       <div class="jysy-djxf">
           <img class="jysy-caption" src="img/dangjian-caption.png" width="100%" alt="" />
           <div id="jysy-xfzb" class="panel">      
-            <div class="jysy-panel-head"><ons-icon rotate="270" icon="ion-social-rss" ></ons-icon> 先锋支部</div>
+            <div class="panel-head"><ons-icon rotate="270" icon="ion-social-rss" ></ons-icon> 先锋支部</div>
               <div class="panel-body">
                 <table id="active-depts"></table>
               </div>
           </div>
           <div id="jysy-xfhd" class="panel panel-default">
-            <div class="jysy-panel-head"><ons-icon rotate="270" icon="ion-social-rss" ></ons-icon> 先锋活动</div>
+            <div class="panel-head"><ons-icon rotate="270" icon="ion-social-rss" ></ons-icon> 先锋活动</div>
               <div class="panel-body">
                 <ons-list id="activities"></ons-list>
               </div>
@@ -142,13 +145,13 @@
       <div id="jysy-wmfw">
         <img class="jysy-caption" src="img/weimin-caption.png" width="100%" alt="" />
         <div id="jysy-qzal" class="panel">      
-          <div class="jysy-panel-head"><ons-icon rotate="270" icon="ion-social-rss" ></ons-icon> 勤政案例</div>
+          <div class="panel-head"><ons-icon rotate="270" icon="ion-social-rss" ></ons-icon> 勤政案例</div>
           <div class="panel-body">
              <ons-list id="solved-list"></ons-list>
           </div>
         </div>
         <div id="jysy-lzal" class="panel">      
-          <div class="jysy-panel-head"><ons-icon rotate="270" icon="ion-social-rss" ></ons-icon> 懒政案例</div>
+          <div class="panel-head"><ons-icon rotate="270" icon="ion-social-rss" ></ons-icon> 懒政案例</div>
           <div class="panel-body">
              <ons-list id="unsolved-list"></ons-list>
           </div>
@@ -157,13 +160,13 @@
       <div id="jysy-yqrd">
         <img class="jysy-caption" src="img/yuqing-caption.png" width="100%" alt="" />
         <div id="jysy-zmyq" class="panel">      
-          <div class="jysy-panel-head"><ons-icon rotate="270" icon="ion-social-rss" ></ons-icon> 正面舆情</div>
+          <div class="panel-head"><ons-icon rotate="270" icon="ion-social-rss" ></ons-icon> 正面舆情</div>
           <div class="panel-body">
              <ons-list id="zmyq-list"></ons-list>
           </div>
         </div>
         <div id="jysy-fmyq" class="panel">      
-          <div class="jysy-panel-head"><ons-icon rotate="270" icon="ion-social-rss" ></ons-icon> 负面舆情</div>
+          <div class="panel-head"><ons-icon rotate="270" icon="ion-social-rss" ></ons-icon> 负面舆情</div>
           <div class="panel-body">
              <ons-list id="fmyq-list"></ons-list>
           </div>
@@ -175,7 +178,7 @@
   <ons-template id="djxf.html">
     <ons-page id="djxf">
       <div id="djxf-numbers" class="panel">
-        <div class="jysy-panel-head"><ons-icon rotate="270" icon="ion-social-rss" ></ons-icon> 党建活动指数</div>
+        <div class="panel-head"><ons-icon rotate="270" icon="ion-social-rss" ></ons-icon> 党建活动指数</div>
         <div class="panel-body">
         <table width="100%" style="text-align:center;">
             <tr width="100%">
@@ -202,19 +205,19 @@
         </div>            
       </div>
       <div id="djxf-xfhd" class="panel panel-default">
-        <div class="jysy-panel-head"><ons-icon rotate="270" icon="ion-social-rss" ></ons-icon> 先锋活动</div>
+        <div class="panel-head"><ons-icon rotate="270" icon="ion-social-rss" ></ons-icon> 先锋活动</div>
           <div class="panel-body">
             <ons-list id="djxf-activities"></ons-list>
           </div>
       </div>
       <div id="djxf-dzzhd" class="panel panel-default">
-        <div class="jysy-panel-head"><ons-icon rotate="270" icon="ion-social-rss" ></ons-icon> 党组织活动情况</div>
+        <div class="panel-head"><ons-icon rotate="270" icon="ion-social-rss" ></ons-icon> 党组织活动情况</div>
         <div class="panel-body">
             <div id="dangjian-stat" class="chart" style="height: 330px;"></div>
         </div>
       </div>
       <div id="djxf-djhyd" class="panel panel-default">
-        <div class="jysy-panel-head"><ons-icon rotate="270" icon="ion-social-rss" ></ons-icon> 党建活跃度与凝聚力</div>
+        <div class="panel-head"><ons-icon rotate="270" icon="ion-social-rss" ></ons-icon> 党建活跃度与凝聚力</div>
         <div class="panel-body">
             <div id="dangjian-trend" class="chart" style="height: 330px;"></div>
         </div>
@@ -223,16 +226,91 @@
   </ons-template>
   <ons-template id="fwwm.html">
     <ons-page id="fwwm">
-      <p style="text-align: center;">
-        This is the 3 page.
-      </p>
+      <div id="fwwm-numbers" class="panel">
+        <div class="panel-head"><ons-icon rotate="270" icon="ion-social-rss" ></ons-icon> 服务为民指数</div>
+        <div class="panel-body">
+        <table width="100%" style="text-align:center;">
+            <tr width="100%">
+                <td>
+                    <div class="fwwm-numbers-title"><span>问题总数</span></div>
+                    <div class="fwwm-numbers-count"><span id="fwwm-total-count"></span></div>
+                    <p id="fwwm-total-cmp" class="fwwm-cmp"></p>
+                </td>
+                <td>
+                    <div class="fwwm-numbers-title"><span>解决问题数</span></div>
+                    <div class="fwwm-numbers-count"><span id="fwwm-solved-count"></span></div>
+                    <p id="fwwm-solved-cmp" class="fwwm-cmp"></p>
+                </td>
+            </tr>            
+        </table>
+        </div>            
+      </div>
+      <div id="fwwm-qzal" class="panel">      
+        <div class="panel-head"><ons-icon rotate="270" icon="ion-social-rss" ></ons-icon> 勤政案例</div>
+        <div class="panel-body">
+            <ons-list id="fwwm-solved-list"></ons-list>
+        </div>
+      </div>
+      <div id="fwwm-lzal" class="panel">      
+        <div class="panel-head"><ons-icon rotate="270" icon="ion-social-rss" ></ons-icon> 懒政案例</div>
+        <div class="panel-body">
+           <ons-list id="fwwm-unsolved-list"></ons-list>
+        </div>        
+      </div>
+      <div id="fwwm-fwxllx" class="panel">      
+        <div class="panel-head"><ons-icon rotate="270" icon="ion-social-rss" ></ons-icon> 服务效率 - 类型</div>
+        <div class="panel-body">
+           <div id="fwwm-moment-stat" class="chart" style="height:330px;"></div>
+        </div>        
+      </div>
+      <div id="fwwm-fwxlqs" class="panel">      
+        <div class="panel-head"><ons-icon rotate="270" icon="ion-social-rss" ></ons-icon> 服务效率 - 趋势</div>
+        <div class="panel-body">
+           <div id="fwwm-moment-trend" class="chart" style="height:330px;"></div>
+        </div>        
+      </div>
     </ons-page>
   </ons-template>
   <ons-template id="yqrd.html">
     <ons-page id="yqrd">
-      <p style="text-align: center;">
-        This is the 4 page.
-      </p>
+      <div id="yqrd-numbers" class="panel">
+        <div class="panel-head"><ons-icon rotate="270" icon="ion-social-rss" ></ons-icon> 社会舆情指数</div>
+        <div class="panel-body">
+        <table width="100%" style="text-align:center;">
+            <tr width="100%">
+                <td>
+                    <div class="yqrd-numbers-title"><span>正面舆情数</span></div>
+                    <div class="yqrd-numbers-count"><span id="yqrd-pos-count"></span>个</div>
+                    <p class="yqrd-cmp"><span id="yqrd-pos-cmp"></span></p>
+                </td>
+                <td>
+                    <div class="yqrd-numbers-title"><span>负面舆情数</span></div>
+                    <div class="yqrd-numbers-count"><span id="yqrd-neg-count"></span>个</div>
+                    <p class="yqrd-cmp"><span id="yqrd-neg-cmp"></span></p>
+                </td>
+            </tr>            
+            <tr>
+                <td colspan="2">
+                    <div class="yqrd-numbers-title"><span>参与媒体</span></div>
+                    <div class="yqrd-numbers-count"><span id="yqrd-count-total">734</span>个</div>
+                    <p>其中活跃媒体<span style="font-size: 24px;" id="yqrd-count-active">30</span>个</p>
+                </td>
+            </tr>
+        </table>
+        </div>            
+      </div>
+      <div id="yqrd-rdsjtj" class="panel">      
+        <div class="panel-head"><ons-icon rotate="270" icon="ion-social-rss" ></ons-icon> 近一月热点事件统计</div>
+        <div class="panel-body">
+           <div id="yqrd-yuqing-stat" class="chart" style="height:330px;"></div>
+        </div>        
+      </div>
+      <div id="yqrd-shyl" class="panel">      
+        <div class="panel-head"><ons-icon rotate="270" icon="ion-social-rss" ></ons-icon> 社会舆论</div>
+        <div class="panel-body">
+           <div id="yqrd-yuqing-trend" class="chart" style="height:330px;"></div>
+        </div>        
+      </div>
     </ons-page>
   </ons-template>
 </body>
