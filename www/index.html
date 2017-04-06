@@ -19,6 +19,8 @@
   <link rel="stylesheet" href="css/style.css">
 
   <script src='js/jinyan.js'></script>
+  <script src='js/jysy.js'></script>
+  <script src='js/djxf.js'></script>
   <script>
     var pageTitles = ['津眼首页', '党建先锋', '服务为民', '舆情热点'];
     var tabImgName = ['jysy.png', 'djxf.png', 'fwwm.png', 'yqrd.png'];
@@ -89,7 +91,7 @@
   <ons-template id="jysy.html">
     <ons-page id="jysy">
       <div id="jysy-number" class="panel panel-default">
-        <div class="jysy-panel-head"><ons-icon icon="ion-android-menu"></ons-icon> 津眼指数</div>
+        <div class="jysy-panel-head"><ons-icon rotate="270" icon="ion-social-rss" ></ons-icon> 津眼指数</div>
         <div class="panel-body">
             <table width="100%">
                 <tr>
@@ -125,13 +127,13 @@
       <div class="jysy-djxf">
           <img class="jysy-caption" src="img/dangjian-caption.png" width="100%" alt="" />
           <div id="jysy-xfzb" class="panel">      
-            <div class="jysy-panel-head"><ons-icon icon="ion-android-menu"></ons-icon> 先锋支部</div>
+            <div class="jysy-panel-head"><ons-icon rotate="270" icon="ion-social-rss" ></ons-icon> 先锋支部</div>
               <div class="panel-body">
                 <table id="active-depts"></table>
               </div>
           </div>
           <div id="jysy-xfhd" class="panel panel-default">
-            <div class="jysy-panel-head"><ons-icon icon="ion-android-menu"></ons-icon> 先锋活动</div>
+            <div class="jysy-panel-head"><ons-icon rotate="270" icon="ion-social-rss" ></ons-icon> 先锋活动</div>
               <div class="panel-body">
                 <ons-list id="activities"></ons-list>
               </div>
@@ -140,13 +142,13 @@
       <div id="jysy-wmfw">
         <img class="jysy-caption" src="img/weimin-caption.png" width="100%" alt="" />
         <div id="jysy-qzal" class="panel">      
-          <div class="jysy-panel-head"><ons-icon icon="ion-android-menu"></ons-icon> 勤政案例</div>
+          <div class="jysy-panel-head"><ons-icon rotate="270" icon="ion-social-rss" ></ons-icon> 勤政案例</div>
           <div class="panel-body">
              <ons-list id="solved-list"></ons-list>
           </div>
         </div>
         <div id="jysy-lzal" class="panel">      
-          <div class="jysy-panel-head"><ons-icon icon="ion-android-menu"></ons-icon> 懒政案例</div>
+          <div class="jysy-panel-head"><ons-icon rotate="270" icon="ion-social-rss" ></ons-icon> 懒政案例</div>
           <div class="panel-body">
              <ons-list id="unsolved-list"></ons-list>
           </div>
@@ -155,13 +157,13 @@
       <div id="jysy-yqrd">
         <img class="jysy-caption" src="img/yuqing-caption.png" width="100%" alt="" />
         <div id="jysy-zmyq" class="panel">      
-          <div class="jysy-panel-head"><ons-icon icon="ion-android-menu"></ons-icon> 正面舆情</div>
+          <div class="jysy-panel-head"><ons-icon rotate="270" icon="ion-social-rss" ></ons-icon> 正面舆情</div>
           <div class="panel-body">
              <ons-list id="zmyq-list"></ons-list>
           </div>
         </div>
         <div id="jysy-fmyq" class="panel">      
-          <div class="jysy-panel-head"><ons-icon icon="ion-android-menu"></ons-icon> 负面舆情</div>
+          <div class="jysy-panel-head"><ons-icon rotate="270" icon="ion-social-rss" ></ons-icon> 负面舆情</div>
           <div class="panel-body">
              <ons-list id="fmyq-list"></ons-list>
           </div>
@@ -172,9 +174,51 @@
 
   <ons-template id="djxf.html">
     <ons-page id="djxf">
-      <p style="text-align: center;">
-        This is the 2 page.
-      </p>
+      <div id="djxf-numbers" class="panel">
+        <div class="jysy-panel-head"><ons-icon rotate="270" icon="ion-social-rss" ></ons-icon> 党建活动指数</div>
+        <div class="panel-body">
+        <table width="100%" style="text-align:center;">
+            <tr width="100%">
+                <td>
+                    <div class="djxf-numbers-title"><span>本月两学一做</span></div>
+                    <div class="djxf-numbers-count"><span id="twostudycount"></span>个</div>
+                    <p class="djxf-numbers-desc">较上月上升<span class="djxf-numbers-up" id="twostudyrate"></span></p>
+                </td>
+                <td>
+                    <div class="djxf-numbers-title"><span>本月三会一课</span></div>
+                    <div class="djxf-numbers-count"><span id="sanhuicount"></span>个</div>
+                    <p class="djxf-numbers-desc">较上月下降<span class="djxf-numbers-down" id="sanhuirate"></span></p>
+                </td>
+        	</tr>
+            
+            <tr>
+                <td colspan="2">
+                    <div class="djxf-numbers-title"><span>党支部总数</span></div>
+                    <div class="djxf-numbers-count"><span id="party-count-total"></span>个</div>
+                    <p>其中本月活跃党支部<span style="font-size: 24px;" id="party-count-active"></span>个</p>
+                </td>
+            </tr>
+        </table>
+        </div>            
+      </div>
+      <div id="djxf-xfhd" class="panel panel-default">
+        <div class="jysy-panel-head"><ons-icon rotate="270" icon="ion-social-rss" ></ons-icon> 先锋活动</div>
+          <div class="panel-body">
+            <ons-list id="djxf-activities"></ons-list>
+          </div>
+      </div>
+      <div id="djxf-dzzhd" class="panel panel-default">
+        <div class="jysy-panel-head"><ons-icon rotate="270" icon="ion-social-rss" ></ons-icon> 党组织活动情况</div>
+        <div class="panel-body">
+            <div id="dangjian-stat" class="chart" style="height: 330px;"></div>
+        </div>
+      </div>
+      <div id="djxf-djhyd" class="panel panel-default">
+        <div class="jysy-panel-head"><ons-icon rotate="270" icon="ion-social-rss" ></ons-icon> 党建活跃度与凝聚力</div>
+        <div class="panel-body">
+            <div id="dangjian-trend" class="chart" style="height: 330px;"></div>
+        </div>
+      </div>
     </ons-page>
   </ons-template>
   <ons-template id="fwwm.html">

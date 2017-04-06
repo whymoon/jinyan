@@ -57,3 +57,20 @@ table#active-depts{
 .item-label{
     border: 1px solid ;
 }
+.djxf-numbers-title{
+    font-size: larger;
+}
+.djxf-numbers-count{
+    color: #f62626;
+    font-size: x-large;
+}
+.djxf-numbers-desc{
+    font-size: small;
+    color: #8e8e8e;
+}
+.djxf-numbers-up{
+    color: #ff4f38;
+}
+.djxf-numbers-down{
+    color: #059520;
+}
