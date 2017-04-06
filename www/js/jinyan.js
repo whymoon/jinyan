@@ -387,3 +387,51 @@ function pieIndexData(type, location) {
         }
     });
 }
+
+function getTopActiveDepts(targetId, areaName, threshold) {
+    $.get('https://ring.cnbigdata.org/api/tianjin/getTopActiveDeptsByAreaName', {areaName: areaName, size: threshold}, function (data) {
+        for (var idx in data) {
+            data[idx].idx = parseInt(idx) + 1;
+            if (data[idx].area == '机关') {
+                data[idx].area = '机关工委';
+            }
+        }
+        data[0].ranktext = 'first';
+        data[1].ranktext = 'second';
+        data[2].ranktext = 'third';
+        var code = "";
+        code += '<tr>';
+        for(var i = 0; i < 4; i++){ 
+            if(i != 0 && i % 2 == 0)
+                code += '</tr><tr>'
+            code += '<td class="xf-item home-party-branch">';
+            code += '<img src="img/xianfeng-top' + (i+1) + '.png" width="40px" height="40px">';
+            code += '<p class="name">' + data[i].area + '</p>';
+            code += '<p href="https://ring.cnbigdata.org/partybranch/' + data[i].id + '" class="name jysy-xfzb-name">' + data[i].short_name + '</p></td>';            
+        }
+        code += '</tr>';
+        $(targetId).html(code);
+    });
+}
+function getTopActivities(targetId, areaName, threshold) {
+    var typestrArray = ["思想建设", "组织建设", "作风建设", "反腐倡廉", "制度建设"];
+    $.getJSON('https://ring.cnbigdata.org/api/tianjin/getTopActivitiesByAreaName', {areaName: areaName, size: threshold}, function (data) {
+        for (var idx in data) {
+            data[idx].idx = parseInt(idx) + 1;
+            data[idx].typestr = typestrArray[data[idx].type - 1];
+            if(data[idx].typestr == ""||!data[idx].typestr) data[idx].typestr =typestrArray[1];
+            data[idx].typecolor = "#FF5641!important";
+        }
+        data[0].ranktext = 'first';
+        data[1].ranktext = 'second';
+        data[2].ranktext = 'third';
+        
+        var tpl = '{{#activities}} \
+            <ons-list-item> \
+                <div class="left"><img class="list-item__thumbnail" src="img/xfhd-3.png" width="40px"></div>\
+                <div class="center" href="https://ring.cnbigdata.org/djyun_activity?id={{id}}" data-toggle="tooltip" title="{{title}}"> \
+                      {{title}} </div></ons-list-item> \
+        {{/activities}}';
+        $(targetId).html(Mustache.render(tpl, {activities: data.slice(0, threshold)}));
+    });
+}

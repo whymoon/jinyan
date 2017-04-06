@@ -23,7 +23,9 @@
     
     ons.ready(function() {
       console.log("Onsen UI is ready!");
-      //pieIndexData("all", "天津");      
+      pieIndexData("all", "天津");  
+      getTopActiveDepts('table#active-depts', "", 4);
+      getTopActivities('#activities', "", 6);
     });
 
     document.addEventListener('show', function(event) {
@@ -69,41 +71,56 @@
 
   <ons-template id="jysy.html">
     <ons-page id="jysy">
-      <div id="jysy-number">
-        <h4 align="center">津眼指数</h4>
-        <table width="100%">
-            <tr>
-                <td><div class="item-chart" id="dangjian"></div></td>
-                <td>
-                <div class="item-cont">
-                    <a href="#" class="item-link">党建活动指数</a>
-                    <p id="dangjian-cmp">同比</p>
-                </div>                    
-                </td>>
-            </tr>
-            <tr>
-                <td><div class="item-chart" id="weimin"></div></td>
-                <td>
-                <div class="item-cont">
-                    <a href="#" class="item-link">服务为民指数</a>
-                    <p id="moment-cmp">同比</p>
-                </div>                    
-                </td>>
-            </tr>
-            <tr>
-                <td><div class="item-chart" id="yuqing"></div></td>
-                <td>
-                <div class="item-cont">
-                    <a href="#" class="item-link">社会舆情指数</a>
-                    <p id="publicopinion-cmp">同比</p>
-                </div>                    
-                </td>>
-            </tr>
-        </table>
+      <div id="jysy-number" class="panel panel-default">
+        <div class="panel-heading">津眼指数</div>
+        <div class="panel-body">
+            <table width="100%">
+                <tr>
+                    <td><div class="item-chart" id="dangjian"></div></td>
+                    <td>
+                    <div class="item-cont">
+                        <a href="#" class="item-link">党建活动指数</a>
+                        <p id="dangjian-cmp">同比</p>
+                    </div>                    
+                    </td>
+                </tr>
+                <tr>
+                    <td><div class="item-chart" id="weimin"></div></td>
+                    <td>
+                    <div class="item-cont">
+                        <a href="#" class="item-link">服务为民指数</a>
+                        <p id="moment-cmp">同比</p>
+                    </div>                    
+                    </td>
+                </tr>
+                <tr>
+                    <td><div class="item-chart" id="yuqing"></div></td>
+                    <td>
+                    <div class="item-cont">
+                        <a href="#" class="item-link">社会舆情指数</a>
+                        <p id="publicopinion-cmp">同比</p>
+                    </div>                    
+                    </td>
+                </tr>
+            </table>
+        </div>
       </div>
-      <div id="jysy-djxf">
-        
+      <div id="jysy-xfzb" class="panel panel-default">
+        <div class="panel-heading">先锋支部</div>
+          <div class="panel-body">
+            <table id="active-depts">                
+            </table>
+          </div>
       </div>
+      <div id="jysy-xfhd" class="panel panel-default">
+        <div class="panel-heading">先锋活动</div>
+          <div class="panel-body">
+          <ons-list id="activities">   
+            
+          </ons-list>
+        </div>
+      </div>
+      
       <div id="jysy-wmfw">
         
       </div>

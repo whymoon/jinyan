@@ -3,6 +3,7 @@
 .item-chart{
     width: 150px;
     height:150px;
+    
 }  
 .item-cont{
     font-size: 18px;
@@ -22,4 +23,14 @@ ul, ol {
     list-style: none;
     padding: 0;
     margin: 0;
+}
+.panel-heading{
+    text-align: center;
+}
+table#active-depts{
+    font-size: small;
+    text-align: center;
+}
+#activities{
+    font-size:medium;
 }
