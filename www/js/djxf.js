@@ -2,10 +2,35 @@
 
 function initDjxf(){
     getThematicActivities();
-    getTopActivities('#djxf-activities', "", 8);
+    // getTopActivities('#djxf-activities', "", 8);
+    getTopActiveMembers("#djxf-active-members", "", 6);
     getRecentActivityCount("");
     getActiveAndCommentDegree("");
     initDeptCount();
+}
+
+function getTopActiveMembers(targetId, areaName, threshold) {
+    $.getJSON('https://ring.cnbigdata.org/api/getTopTenMember', {areaName: areaName}, function (data) {
+        for (var idx in data) {
+            data[idx].idx = parseInt(idx) + 1;
+        }
+        data[0].ranktext = 'first';
+        data[1].ranktext = 'second';
+        data[2].ranktext = 'third';
+        var tpl = '{{#members}} \
+            <ons-list-item>{{name}} - {{branch_name}} - {{dept_name}}</ons-list-item>\
+        {{/members}}';
+        // var tpl = '{{#members}} \
+        //     <li> \
+        //         <span class="index {{ranktext}}">{{idx}}</span> \
+        //         <a class="link" href="#" target="_blank" data-toggle="tooltip" title="{{name}}"> \
+        //             {{name}} - {{branch_name}} - {{dept_name}} \
+        //         </a> \
+        //         <span class="time">{{partyDay}}&nbsp;入党</span> \
+        //     </li> \
+        // {{/members}}';
+        $(targetId).html(Mustache.render(tpl, {members: data.slice(0, threshold)}));
+    });
 }
 
 function initDeptCount() {

@@ -90,7 +90,7 @@ function plotMomentTrend(targetDom, areaName) {
         data: {},
         dataType: "json",
         success: function (data) {
-            console.log(data);
+            // console.log(data);
             trendChart.setOption({
                 title : {
                     x: 'center',

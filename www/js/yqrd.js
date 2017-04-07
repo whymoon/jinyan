@@ -69,7 +69,6 @@ function initYuqingTrend() {
         url: 'https://ring.cnbigdata.org/getYuqingEmo?loc=',
         dataType: "json",
         success: function (data) {
-            console.log(data);
             plotYuqingTrend("div#yqrd-yuqing-trend", data);
         },
         error: function (e) {
@@ -275,7 +274,6 @@ function plotYuqingTrend(targetDom, data) {
     //     maxBound = Math.max(maxBound, item.positive);
     // });
     var trendChart = echarts.init($(targetDom).get(0));
-    console.log(3);
     trendChart.setOption({
         title : {
             x: 'center',

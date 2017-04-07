@@ -1,7 +1,7 @@
 // This is a JavaScript file
 
 function initJysy(){
-    pieIndexData("all", "");  
+    pieIndexData("all", "天津");  
     getTopActiveDepts('table#active-depts', "", 4);
     getTopActivities('#activities', "", 6);
     initSolvedData("#solved-list", "#unsolved-list" ,"", 6);
@@ -227,9 +227,10 @@ function initqyLineChart(target,data,type,dataList) {
 function updatePieIndexData(data, type, index, location) {
     if(type == "all")
     {
-        var dangjian = PieIndex('dangjian',data.data1_y[index],1);
-        var weimin = PieIndex('weimin',data.data2_y[index],2);
-        var yuqing = PieIndex('yuqing',data.data3_y[index],3);
+        console.log(data);
+        var dangjian = PieIndex('dangjian', data[location].dangjian[index],1);
+        var weimin = PieIndex('weimin', data[location].weimin[index],2);
+        var yuqing = PieIndex('yuqing', data[location].yuqing[index],3);
         // dangjian.on('click', function (item) {
         //     if(location == "天津")
         //     {
@@ -263,39 +264,39 @@ function updatePieIndexData(data, type, index, location) {
         // 刷新“上升/下降”处的百分比
         $('p#dangjian-cmp').html(Mustache.render(
             '同比{{text}}<span class="num {{direct}}">{{diff}}%</span>',
-            calcUpDown(data.data1_y, index)
+            calcUpDown(data[location].dangjian, index)
         ));
         $('p#moment-cmp').html(Mustache.render(
             '同比{{text}}<span class="num {{direct}}">{{diff}}%</span>',
-            calcUpDown(data.data2_y, index)
+            calcUpDown(data[location].weimin, index)
         ));
         $('p#publicopinion-cmp').html(Mustache.render(
             '同比{{text}}<span class="num {{direct}}">{{diff}}%</span>',
-            calcUpDown(data.data3_y, index)
+            calcUpDown(data[location].yuqing, index)
         ));
     }
     else if(type == "dangjian")
     {
-        var dangjian = PieIndex('dangjian',data.data1_y[6],1);
+        var dangjian = PieIndex('dangjian', data[location].dangjian[6], 1);
         $('p#dangjian-cmp').html(Mustache.render(
             '同比{{text}}<span class="num {{direct}}">{{diff}}%</span>',
-            calcUpDown(data.data1_y, 6)
+            calcUpDown(data[location].dangjian, 6)
         ));
     }
     else if(type == "weimin")
     {
-        var weimin = PieIndex('weimin',data.data2_y[6],2);
+        var weimin = PieIndex('weimin', data[location].weimin[6], 2);
         $('p#moment-cmp').html(Mustache.render(
             '同比{{text}}<span class="num {{direct}}">{{diff}}%</span>',
-            calcUpDown(data.data2_y, 6)
+            calcUpDown(data[location].weimin, 6)
         ));
     }
     else if(type == "yuqing")
     {
-        var yuqing = PieIndex('yuqing',data.data3_y[6],3);
+        var yuqing = PieIndex('yuqing', data[location].yuqing[6], 3);
         $('p#publicopinion-cmp').html(Mustache.render(
             '同比{{text}}<span class="num {{direct}}">{{diff}}%</span>',
-            calcUpDown(data.data3_y, 6)
+            calcUpDown(data[location].yuqing, 6)
         ));
     }
 
@@ -338,12 +339,13 @@ function pieIndexData(type, location) {
     if (location == undefined || location == "") {
         location = "天津";
     }
+    console.log(location);
     $.ajax({
         type: "GET",
         url: 'https://ring.cnbigdata.org/getthreeindexs',
         data: {loc: location},
         dataType: "json",
-        success: function (data) {
+        success: function (data) {            
             if (type == "all") {
                 origin_data = data; // backup the origin response data.
             }
@@ -404,33 +406,38 @@ function getTopActivities(targetId, areaName, threshold) {
     });
 }
 function initSolvedData(target1, target2, loc, size) {
+    // var dysjInfoTemplate =
+    //     '<li class="news-list">\
+    //     <span class="{{indexStr}}">{{num}}</span>\
+    //     <a class="link" href="/djyun_moment_detail/{{id}}" data-toggle="tooltip" title="{{content}}"> <span style="color: {{typecolor}};">{{typestr}}</span><span style="color: #339FE3!important;">{{location}}</span> {{content}} </a>\
+    // <span class="time">{{timestr}}</span>\
+    //     </li>';
     var dysjInfoTemplate =
         '<ons-list-item class="news-list" modifier="nodivider">\
-        <div class="left " style="color: {{typecolor}};"> <div class="item-label">{{typestr}}</div></div>\
-        <div class="link center solve-unsolve-item" href="https://ring.cnbigdata.org/djyundysj/{{id}}"> {{title}}</div>\
+            <div class="left " style="color: {{typecolor}};"> <div class="item-label">{{typestr}}</div></div>\
+            <div class="link center solve-unsolve-item" href="https://ring.cnbigdata.org/djyun_moment_detail/{{id}}"> {{content}}</div>\
         </ons-list-item>';
     var indexStr = ['index first','index second','index third','index','index'];
     $.ajax({
         type: "GET",
-        url: 'https://ring.cnbigdata.org/api/djyunsjsearch?size='+size+'&solved=1&order=updatedt&ordertype=desc&loc=' + loc,
+        url: 'https://ring.cnbigdata.org/api/getDateFromGridnew?loc='+ loc + "&size="+size + "&type=solved",
         dataType: "json",
         success: function (data) {
-            // console.log(data);
             var rendered = "";
-            $.each(data, function (i, d) {
-                d.time = d.updatedt;
+            var cnt = 0;
+            $.each(data,function (i,d) {
+                if(d.content.indexOf('大脑体积') != -1)
+                    return true;
                 d.num = i + 1;
                 d.indexStr = indexStr[Math.min(3,i)];
-                if(!d.location || d.location == "") d.location = "天津";
-                if(d.location.indexOf("区")>0)
+                var date = new Date(d.createdt*1000);
+                d.timestr = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+                // d.typestr = typeArr[parseInt(d.eventType)];
+                if(!d.types)
                 {
-                    d.location = d.location.split("区")[0];
+                    d.types = "1";
                 }
-                else if(d.location.indexOf("市")>0)
-                {
-                    d.location = d.location.split("市")[0];
-                }
-                var eventType = d.type?d.type:d.eventType;
+                var eventType = parseInt(d.types)
                 if (eventType == 1 || eventType == 25) {
                     d.typestr = typeArr[eventType];
                     d.typecolor = "#FF7920!important";
@@ -443,8 +450,11 @@ function initSolvedData(target1, target2, loc, size) {
                     d.typestr = typeArr[eventType].split(" ")[0];
                     d.typecolor = "#87A5B5!important";
                 }
+                d.location = d.loc.substring(0,3);
                 rendered += Mustache.render(dysjInfoTemplate, d);
-            });
+                if(cnt++ > size-2)
+                    return false;
+            })
             $(target1).html(rendered);
         },
         error: function (e) {
@@ -453,16 +463,24 @@ function initSolvedData(target1, target2, loc, size) {
     });
     $.ajax({
         type: "GET",
-        url: 'https://ring.cnbigdata.org/api/djyunsjsearch?size='+size+'&solved=0&order=createdt&ordertype=asc&loc=' + loc,
+        url: 'https://ring.cnbigdata.org/api/getDateFromGridnew?loc='+ loc + "&size="+size + "&type=unsolved",
         dataType: "json",
         success: function (data) {
-            //console.log(data);
             var rendered = "";
-            $.each(data, function (i, d) {
-                d.time = d.createdt;
+            var cnt = 0;
+            $.each(data,function (i,d) {
+                if(d.content.indexOf('大脑体积') != -1)
+                    return true;
                 d.num = i + 1;
                 d.indexStr = indexStr[Math.min(3,i)];
-                var eventType = d.type?d.type:d.eventType;
+                var date = new Date(d.createdt*1000);
+                d.timestr = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+                // d.typestr = typeArr[parseInt(d.eventType)];
+                if(!d.types)
+                {
+                    d.types = "1";
+                }
+                var eventType = parseInt(d.types)
                 if (eventType == 1 || eventType == 25) {
                     d.typestr = typeArr[eventType];
                     d.typecolor = "#FF7920!important";
@@ -475,17 +493,11 @@ function initSolvedData(target1, target2, loc, size) {
                     d.typestr = typeArr[eventType].split(" ")[0];
                     d.typecolor = "#87A5B5!important";
                 }
-                if(!d.location || d.location == "") d.location = "天津市";
-                if(d.location.indexOf("市")>0)
-                {
-                    d.location = d.location.split("市")[0];
-                }
-                else if(d.location.indexOf("区")>0)
-                {
-                    d.location = d.location.split("区")[0];
-                }
+                d.location = d.loc.substring(0,3);
                 rendered += Mustache.render(dysjInfoTemplate, d);
-            });
+                if(cnt++ > size-2)
+                    return false;
+            })
             $(target2).html(rendered);
         },
         error: function (e) {
@@ -493,6 +505,96 @@ function initSolvedData(target1, target2, loc, size) {
         }
     });
 }
+// function initSolvedData(target1, target2, loc, size) {
+//     var dysjInfoTemplate =
+//         '<ons-list-item class="news-list" modifier="nodivider">\
+//         <div class="left " style="color: {{typecolor}};"> <div class="item-label">{{typestr}}</div></div>\
+//         <div class="link center solve-unsolve-item" href="https://ring.cnbigdata.org/djyundysj/{{id}}"> {{title}}</div>\
+//         </ons-list-item>';
+//     var indexStr = ['index first','index second','index third','index','index'];
+//     $.ajax({
+//         type: "GET",
+//         url: 'https://ring.cnbigdata.org/api/djyunsjsearch?size='+size+'&solved=1&order=updatedt&ordertype=desc&loc=' + loc,
+//         dataType: "json",
+//         success: function (data) {
+//             // console.log(data);
+//             var rendered = "";
+//             $.each(data, function (i, d) {
+//                 d.time = d.updatedt;
+//                 d.num = i + 1;
+//                 d.indexStr = indexStr[Math.min(3,i)];
+//                 if(!d.location || d.location == "") d.location = "天津";
+//                 if(d.location.indexOf("区")>0)
+//                 {
+//                     d.location = d.location.split("区")[0];
+//                 }
+//                 else if(d.location.indexOf("市")>0)
+//                 {
+//                     d.location = d.location.split("市")[0];
+//                 }
+//                 var eventType = d.type?d.type:d.eventType;
+//                 if (eventType == 1 || eventType == 25) {
+//                     d.typestr = typeArr[eventType];
+//                     d.typecolor = "#FF7920!important";
+//                 }
+//                 else if (eventType == 4) {
+//                     d.typestr = "科技";
+//                     d.typecolor = "#60A3F5!important";
+//                 }
+//                 else {
+//                     d.typestr = typeArr[eventType].split(" ")[0];
+//                     d.typecolor = "#87A5B5!important";
+//                 }
+//                 rendered += Mustache.render(dysjInfoTemplate, d);
+//             });
+//             $(target1).html(rendered);
+//         },
+//         error: function (e) {
+//             console.log(e);
+//         }
+//     });
+//     $.ajax({
+//         type: "GET",
+//         url: 'https://ring.cnbigdata.org/api/djyunsjsearch?size='+size+'&solved=0&order=createdt&ordertype=asc&loc=' + loc,
+//         dataType: "json",
+//         success: function (data) {
+//             //console.log(data);
+//             var rendered = "";
+//             $.each(data, function (i, d) {
+//                 d.time = d.createdt;
+//                 d.num = i + 1;
+//                 d.indexStr = indexStr[Math.min(3,i)];
+//                 var eventType = d.type?d.type:d.eventType;
+//                 if (eventType == 1 || eventType == 25) {
+//                     d.typestr = typeArr[eventType];
+//                     d.typecolor = "#FF7920!important";
+//                 }
+//                 else if (eventType == 4) {
+//                     d.typestr = "科技";
+//                     d.typecolor = "#60A3F5!important";
+//                 }
+//                 else {
+//                     d.typestr = typeArr[eventType].split(" ")[0];
+//                     d.typecolor = "#87A5B5!important";
+//                 }
+//                 if(!d.location || d.location == "") d.location = "天津市";
+//                 if(d.location.indexOf("市")>0)
+//                 {
+//                     d.location = d.location.split("市")[0];
+//                 }
+//                 else if(d.location.indexOf("区")>0)
+//                 {
+//                     d.location = d.location.split("区")[0];
+//                 }
+//                 rendered += Mustache.render(dysjInfoTemplate, d);
+//             });
+//             $(target2).html(rendered);
+//         },
+//         error: function (e) {
+//             console.log(e);
+//         }
+//     });
+// }
 
 function initFuYuqing(target) {
     var newsInfoTemplate =
