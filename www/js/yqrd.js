@@ -22,6 +22,8 @@ function initYuqingNumber(){
                 '较上月{{text}}<span class="yqrd-numbers-{{direct}}">{{diff}}%</span>',
                 calcUpDown(data.negC))
             );
+            $('#yqrd-count-total').html(data.webS);
+            $('#yqrd-count-active').html(data.webActiveS);
         },
         error: function (e) {
             console.log(e);
@@ -313,7 +315,7 @@ function plotYuqingTrend(targetDom, data) {
         ],
         yAxis: [
             {
-                name: '数量',
+                name: '百分比',
                 type: 'value',
                 max: 100,//Math.round(maxBound * 1.1),
                 min: 0

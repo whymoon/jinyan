@@ -110,7 +110,7 @@ function plotDangjianTrend(targetDom, data) {
             }
         },
         legend: {
-            data:['开展活动数', '凝聚力指数'],
+            data:['活跃度指数', '凝聚力指数'],
             x: 'left'
         },
         color: ['#90dcdd', '#d87a80', 'blue'],
@@ -135,20 +135,20 @@ function plotDangjianTrend(targetDom, data) {
         ],
         yAxis: [
             {
-                name: '数量',
+                name: '活跃度指数',
                 type: 'value',
-                max: 1000,
+                max: 'dataMax',
                 min: 0
             },
             {
                 name: '凝聚力指数',
                 type: 'value',
-                max: 6,
+                max: 80
             }
         ],
         series: [
             {
-                name:'开展活动数',
+                name:'活跃度指数',
                 type:'line',
                 smooth: true,
                 yAxisIndex: 0,
